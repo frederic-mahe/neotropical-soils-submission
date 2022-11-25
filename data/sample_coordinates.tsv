@@ -1,0 +1,271 @@
+sample	site	country	month	year	zone	northing	easting
+B005	Baro Colorado Island	Panama	October	2012	17P	1012760	0628970
+B006	Baro Colorado Island	Panama	October	2012	17P	1012696	0628778
+B007	Baro Colorado Island	Panama	October	2012	17P	1012614	0628598
+B008	Baro Colorado Island	Panama	October	2012	17P	1012656	0628436
+B010	Baro Colorado Island	Panama	October	2012	17P	1012533	0628105
+B011	Baro Colorado Island	Panama	October	2012	17P	1012512	0628590
+B012	Baro Colorado Island	Panama	October	2012	17P	1012407	0628465
+B013	Baro Colorado Island	Panama	October	2012	17P	1012269	0628415
+B014	Baro Colorado Island	Panama	October	2012	17P	1012108	0628342
+B020	Baro Colorado Island	Panama	October	2012	17P	1011959	0629156
+B029	Baro Colorado Island	Panama	October	2012	17P	1011629	0627727
+B030	Baro Colorado Island	Panama	October	2012	17P	1011853	0627712
+B031	Baro Colorado Island	Panama	October	2012	17P	1011950	0627585
+B032	Baro Colorado Island	Panama	October	2012	17P	1012080	0627360
+B033	Baro Colorado Island	Panama	October	2012	17P	1012254	0627316
+B034	Baro Colorado Island	Panama	October	2012	17P	1012431	0627251
+B035	Baro Colorado Island	Panama	October	2012	17P	1012614	0627236
+B036	Baro Colorado Island	Panama	October	2012	17P	1012832	0627369
+B037	Baro Colorado Island	Panama	October	2012	17P	1012952	0627269
+B038	Baro Colorado Island	Panama	October	2012	17P	1013115	0627389
+B039	Baro Colorado Island	Panama	October	2012	17P	1013261	0627514
+B040	Baro Colorado Island	Panama	October	2012	17P	1013396	0627457
+B043	Baro Colorado Island	Panama	October	2012	17P	1013156	0627008
+B044	Baro Colorado Island	Panama	October	2012	17P	1013191	0626933
+B045	Baro Colorado Island	Panama	October	2012	17P	1013368	0626925
+B046	Baro Colorado Island	Panama	October	2012	17P	1013575	0626948
+B047	Baro Colorado Island	Panama	October	2012	17P	1013769	0626961
+B048	Baro Colorado Island	Panama	October	2012	17P	1013035	0626809
+B050	Baro Colorado Island	Panama	October	2012	17P	1013151	0626654
+B051	Baro Colorado Island	Panama	October	2012	17P	1010594	0625351
+B052	Baro Colorado Island	Panama	October	2012	17P	1010743	0625463
+B060	Baro Colorado Island	Panama	October	2012	17P	1011771	0625853
+B070	Baro Colorado Island	Panama	October	2012	17P	1012036	0625462
+B080	Baro Colorado Island	Panama	October	2012	17P	1011717	0625613
+B081	Baro Colorado Island	Panama	October	2012	17P	1010992	0625691
+B082	Baro Colorado Island	Panama	October	2012	17P	1011005	0625784
+B090	Baro Colorado Island	Panama	October	2012	17P	1011141	0626449
+B100	Baro Colorado Island	Panama	October	2012	17P	1010851	0626820
+B129	Baro Colorado Island	Panama	June	2013	17P	1011628	0627725
+B130	Baro Colorado Island	Panama	June	2013	17P	1011851	0627708
+B133	Baro Colorado Island	Panama	June	2013	17P	1012256	0627313
+B134	Baro Colorado Island	Panama	June	2013	17P	1012431	0627249
+B135	Baro Colorado Island	Panama	June	2013	17P	1012619	0627241
+B136	Baro Colorado Island	Panama	June	2013	17P	1012833	0627364
+B143	Baro Colorado Island	Panama	June	2013	17P	1013154	0627003
+B144	Baro Colorado Island	Panama	June	2013	17P	1013189	0626930
+B145	Baro Colorado Island	Panama	June	2013	17P	1013364	0626926
+B146	Baro Colorado Island	Panama	June	2013	17P	1013567	0626940
+B155	Baro Colorado Island	Panama	June	2013	17P	1011278	0625602
+B156	Baro Colorado Island	Panama	June	2013	17P	1011447	0625678
+B163	Baro Colorado Island	Panama	June	2013	17P	1012716	0626219
+B164	Baro Colorado Island	Panama	June	2013	17P	1012872	0626088
+B167	Baro Colorado Island	Panama	June	2013	17P	1012089	0625741
+B168	Baro Colorado Island	Panama	June	2013	17P	1012060	0625654
+B173	Baro Colorado Island	Panama	June	2013	17P	1012101	0625124
+B174	Baro Colorado Island	Panama	June	2013	17P	1012107	0625041
+B175	Baro Colorado Island	Panama	June	2013	17P	1012141	0624940
+B176	Baro Colorado Island	Panama	June	2013	17P	1012169	0624848
+B177	Baro Colorado Island	Panama	June	2013	17P	1012232	0624683
+B178	Baro Colorado Island	Panama	June	2013	17P	1011959	0625349
+B183	Baro Colorado Island	Panama	June	2013	17P	1011059	0625858
+B184	Baro Colorado Island	Panama	June	2013	17P	1011167	0625868
+B185	Baro Colorado Island	Panama	June	2013	17P	1011326	0626968
+B186	Baro Colorado Island	Panama	June	2013	17P	1011324	0626048
+B193	Baro Colorado Island	Panama	June	2013	17P	1011016	0626634
+B194	Baro Colorado Island	Panama	June	2013	17P	1010921	0626615
+B197	Baro Colorado Island	Panama	June	2013	17P	1010726	0626917
+B198	Baro Colorado Island	Panama	June	2013	17P	1010781	0626991
+B199	Baro Colorado Island	Panama	June	2013	17P	1010818	0626909
+B200	Baro Colorado Island	Panama	June	2013	17P	1010851	0626819
+L001	La Selva Biological Station	Costa Rica	October	2012	16P	1151992	0827508
+L002	La Selva Biological Station	Costa Rica	October	2012	16P	1151572	0827291
+L005	La Selva Biological Station	Costa Rica	October	2012	16P	1151198	0827077
+L006	La Selva Biological Station	Costa Rica	October	2012	16P	1151174	0826996
+L007	La Selva Biological Station	Costa Rica	October	2012	16P	1151240	0826878
+L008	La Selva Biological Station	Costa Rica	October	2012	16P	1151312	0826762
+L010	La Selva Biological Station	Costa Rica	October	2012	16P	1151490	0826519
+L011	La Selva Biological Station	Costa Rica	October	2012	16P	1151574	0826394
+L012	La Selva Biological Station	Costa Rica	October	2012	16P	1151653	0826269
+L013	La Selva Biological Station	Costa Rica	October	2012	16P	1151733	0826150
+L014	La Selva Biological Station	Costa Rica	October	2012	16P	1151811	0826029
+L015	La Selva Biological Station	Costa Rica	October	2012	16P	1151890	0825892
+L016	La Selva Biological Station	Costa Rica	October	2012	16P	1151969	0825766
+L018	La Selva Biological Station	Costa Rica	October	2012	16P	1152327	0825996
+L019	La Selva Biological Station	Costa Rica	October	2012	16P	1152210	0826174
+L020	La Selva Biological Station	Costa Rica	October	2012	16P	1152076	0826365
+L021	La Selva Biological Station	Costa Rica	October	2012	16P	1152007	0826485
+L022	La Selva Biological Station	Costa Rica	October	2012	16P	1152115	0826584
+L023	La Selva Biological Station	Costa Rica	October	2012	16P	1152202	0826646
+L024	La Selva Biological Station	Costa Rica	October	2012	16P	1152296	0826667
+L025	La Selva Biological Station	Costa Rica	October	2012	16P	1152440	0826806
+L026	La Selva Biological Station	Costa Rica	October	2012	16P	1152538	0826967
+L027	La Selva Biological Station	Costa Rica	October	2012	16P	1152596	0827145
+L028	La Selva Biological Station	Costa Rica	October	2012	16P	1152783	0827146
+L030	La Selva Biological Station	Costa Rica	October	2012	16P	1153203	0827269
+L031	La Selva Biological Station	Costa Rica	October	2012	16P	1153264	0827271
+L032	La Selva Biological Station	Costa Rica	October	2012	16P	1153341	0827195
+L035	La Selva Biological Station	Costa Rica	October	2012	16P	1153638	0827424
+L036	La Selva Biological Station	Costa Rica	October	2012	16P	1153786	0827532
+L037	La Selva Biological Station	Costa Rica	October	2012	16P	1153865	0827560
+L038	La Selva Biological Station	Costa Rica	October	2012	16P	1153883	0827648
+L039	La Selva Biological Station	Costa Rica	October	2012	16P	1153851	0827721
+L040	La Selva Biological Station	Costa Rica	October	2012	16P	1153847	0827807
+L041	La Selva Biological Station	Costa Rica	October	2012	16P	1153424	0828171
+L042	La Selva Biological Station	Costa Rica	October	2012	16P	1153293	0828107
+L043	La Selva Biological Station	Costa Rica	October	2012	16P	1153133	0828029
+L044	La Selva Biological Station	Costa Rica	October	2012	16P	1153148	0828001
+L045	La Selva Biological Station	Costa Rica	October	2012	16P	1153208	0827919
+L046	La Selva Biological Station	Costa Rica	October	2012	16P	1153261	0827838
+L049	La Selva Biological Station	Costa Rica	October	2012	16P	1153343	0827539
+L050	La Selva Biological Station	Costa Rica	October	2012	16P	1153464	0827420
+L051	La Selva Biological Station	Costa Rica	October	2012	16P	1154647	0827116
+L052	La Selva Biological Station	Costa Rica	October	2012	16P	1154729	0827062
+L053	La Selva Biological Station	Costa Rica	October	2012	16P	1154770	0827935
+L054	La Selva Biological Station	Costa Rica	October	2012	16P	1154978	0826975
+L055	La Selva Biological Station	Costa Rica	October	2012	16P	1155125	0826988
+L056	La Selva Biological Station	Costa Rica	October	2012	16P	1155185	0827084
+L057	La Selva Biological Station	Costa Rica	October	2012	16P	1155148	0827174
+L058	La Selva Biological Station	Costa Rica	October	2012	16P	1154956	0827040
+L059	La Selva Biological Station	Costa Rica	October	2012	16P	1154892	0827158
+L060	La Selva Biological Station	Costa Rica	October	2012	16P	1154811	0827310
+L061	La Selva Biological Station	Costa Rica	October	2012	16P	1153917	0827402
+L062	La Selva Biological Station	Costa Rica	October	2012	16P	1154098	0827384
+L063	La Selva Biological Station	Costa Rica	October	2012	16P	1154131	0827207
+L064	La Selva Biological Station	Costa Rica	October	2012	16P	1154065	0827034
+L065	La Selva Biological Station	Costa Rica	October	2012	16P	1153921	0826917
+L066	La Selva Biological Station	Costa Rica	October	2012	16P	1153803	0826813
+L067	La Selva Biological Station	Costa Rica	October	2012	16P	1153656	0826690
+L068	La Selva Biological Station	Costa Rica	October	2012	16P	1153688	0826453
+L069	La Selva Biological Station	Costa Rica	October	2012	16P	1153706	0826297
+L070	La Selva Biological Station	Costa Rica	October	2012	16P	1153716	0826165
+L071	La Selva Biological Station	Costa Rica	October	2012	16P	1153577	0826083
+L072	La Selva Biological Station	Costa Rica	October	2012	16P	1153502	0826030
+L073	La Selva Biological Station	Costa Rica	October	2012	16P	1153430	0825967
+L074	La Selva Biological Station	Costa Rica	October	2012	16P	1153305	0825871
+L075	La Selva Biological Station	Costa Rica	October	2012	16P	1153264	0825850
+L076	La Selva Biological Station	Costa Rica	October	2012	16P	1153187	0825795
+L077	La Selva Biological Station	Costa Rica	October	2012	16P	1153019	0825693
+L078	La Selva Biological Station	Costa Rica	October	2012	16P	1152937	0825645
+L079	La Selva Biological Station	Costa Rica	October	2012	16P	1152850	0825587
+L080	La Selva Biological Station	Costa Rica	October	2012	16P	1152810	0825554
+L081	La Selva Biological Station	Costa Rica	October	2012	16P	1152730	0825522
+L082	La Selva Biological Station	Costa Rica	October	2012	16P	1152695	0825462
+L083	La Selva Biological Station	Costa Rica	October	2012	16P	1152612	0825410
+L084	La Selva Biological Station	Costa Rica	October	2012	16P	1152529	0825360
+L085	La Selva Biological Station	Costa Rica	October	2012	16P	1152750	0825433
+L086	La Selva Biological Station	Costa Rica	October	2012	16P	1152843	0825436
+L089	La Selva Biological Station	Costa Rica	October	2012	16P	1153060	0825676
+L090	La Selva Biological Station	Costa Rica	October	2012	16P	1153131	0825715
+L092	La Selva Biological Station	Costa Rica	October	2012	16P	1154316	0824007
+L093	La Selva Biological Station	Costa Rica	October	2012	16P	1154246	0823943
+L094	La Selva Biological Station	Costa Rica	October	2012	16P	1154176	0823882
+L095	La Selva Biological Station	Costa Rica	October	2012	16P	1154084	0823820
+L096	La Selva Biological Station	Costa Rica	October	2012	16P	1153994	0823952
+L097	La Selva Biological Station	Costa Rica	October	2012	16P	1153968	0823975
+L098	La Selva Biological Station	Costa Rica	October	2012	16P	1153931	0824068
+L099	La Selva Biological Station	Costa Rica	October	2012	16P	1153916	0824104
+L100	La Selva Biological Station	Costa Rica	October	2012	16P	1153852	0824192
+L101	La Selva Biological Station	Costa Rica	June	2013	16P	1151992	0827504
+L102	La Selva Biological Station	Costa Rica	June	2013	16P	1151568	0827829
+L103	La Selva Biological Station	Costa Rica	June	2013	16P	1151406	0827209
+L104	La Selva Biological Station	Costa Rica	June	2013	16P	1151325	0827137
+L109	La Selva Biological Station	Costa Rica	June	2013	16P	1151391	0826633
+L110	La Selva Biological Station	Costa Rica	June	2013	16P	1151490	0826519
+L111	La Selva Biological Station	Costa Rica	June	2013	16P	1151576	0826394
+L112	La Selva Biological Station	Costa Rica	June	2013	16P	1151650	0826271
+L115	La Selva Biological Station	Costa Rica	June	2013	16P	1151894	0825894
+L116	La Selva Biological Station	Costa Rica	June	2013	16P	1151965	0825766
+L117	La Selva Biological Station	Costa Rica	June	2013	16P	1152064	0825642
+L118	La Selva Biological Station	Costa Rica	June	2013	16P	1152325	0825989
+L119	La Selva Biological Station	Costa Rica	June	2013	16P	1152214	0826171
+L120	La Selva Biological Station	Costa Rica	June	2013	16P	1152082	0826364
+L123	La Selva Biological Station	Costa Rica	June	2013	16P	1152202	0826651
+L124	La Selva Biological Station	Costa Rica	June	2013	16P	1152300	0826670
+L125	La Selva Biological Station	Costa Rica	June	2013	16P	1152435	0826812
+L126	La Selva Biological Station	Costa Rica	June	2013	16P	1152539	0826966
+L129	La Selva Biological Station	Costa Rica	June	2013	16P	1152981	0827187
+L130	La Selva Biological Station	Costa Rica	June	2013	16P	1153202	0827272
+L131	La Selva Biological Station	Costa Rica	June	2013	16P	1153262	0827263
+L132	La Selva Biological Station	Costa Rica	June	2013	16P	1153339	0827192
+L137	La Selva Biological Station	Costa Rica	June	2013	16P	1153864	0827557
+L138	La Selva Biological Station	Costa Rica	June	2013	16P	1153880	0827651
+L139	La Selva Biological Station	Costa Rica	June	2013	16P	1153849	0827718
+L140	La Selva Biological Station	Costa Rica	June	2013	16P	1153842	0827807
+L145	La Selva Biological Station	Costa Rica	June	2013	16P	1153205	0827921
+L146	La Selva Biological Station	Costa Rica	June	2013	16P	1153262	0827834
+L151	La Selva Biological Station	Costa Rica	June	2013	16P	1154647	0827116
+L152	La Selva Biological Station	Costa Rica	June	2013	16P	1154729	0827062
+L155	La Selva Biological Station	Costa Rica	June	2013	16P	1155125	0826988
+L156	La Selva Biological Station	Costa Rica	June	2013	16P	1155185	0827084
+L159	La Selva Biological Station	Costa Rica	June	2013	16P	1154892	0827158
+L160	La Selva Biological Station	Costa Rica	June	2013	16P	1154811	0827310
+L161	La Selva Biological Station	Costa Rica	June	2013	16P	1153923	0827406
+L162	La Selva Biological Station	Costa Rica	June	2013	16P	1154093	0827385
+L165	La Selva Biological Station	Costa Rica	June	2013	16P	1153919	0826917
+L166	La Selva Biological Station	Costa Rica	June	2013	16P	1153803	0826811
+L171	La Selva Biological Station	Costa Rica	June	2013	16P	1153578	0826083
+L172	La Selva Biological Station	Costa Rica	June	2013	16P	1153498	0826029
+L173	La Selva Biological Station	Costa Rica	June	2013	16P	1153426	0825965
+L174	La Selva Biological Station	Costa Rica	June	2013	16P	1153301	0825873
+L175	La Selva Biological Station	Costa Rica	June	2013	16P	1153267	0825854
+L176	La Selva Biological Station	Costa Rica	June	2013	16P	1153187	0825794
+L177	La Selva Biological Station	Costa Rica	June	2013	16P	1153018	0825694
+L178	La Selva Biological Station	Costa Rica	June	2013	16P	1152935	0825643
+L179	La Selva Biological Station	Costa Rica	June	2013	16P	1152849	0825588
+L180	La Selva Biological Station	Costa Rica	June	2013	16P	1152809	0825552
+L181	La Selva Biological Station	Costa Rica	June	2013	16P	1152726	0825519
+L182	La Selva Biological Station	Costa Rica	June	2013	16P	1152695	0825464
+L183	La Selva Biological Station	Costa Rica	June	2013	16P	1152618	0825412
+L184	La Selva Biological Station	Costa Rica	June	2013	16P	1152531	0825359
+L185	La Selva Biological Station	Costa Rica	June	2013	16P	1152750	0825434
+L186	La Selva Biological Station	Costa Rica	June	2013	16P	1152845	0825433
+L187	La Selva Biological Station	Costa Rica	June	2013	16P	1152898	0825520
+L188	La Selva Biological Station	Costa Rica	June	2013	16P	1152952	0825598
+L189	La Selva Biological Station	Costa Rica	June	2013	16P	1153056	0825677
+L190	La Selva Biological Station	Costa Rica	June	2013	16P	1153130	0825718
+L191	La Selva Biological Station	Costa Rica	June	2013	16P	1154665	0824008
+L192	La Selva Biological Station	Costa Rica	June	2013	16P	1154316	0824007
+L193	La Selva Biological Station	Costa Rica	June	2013	16P	1154246	0823943
+L194	La Selva Biological Station	Costa Rica	June	2013	16P	1154176	0823882
+L195	La Selva Biological Station	Costa Rica	June	2013	16P	1154084	0823820
+L196	La Selva Biological Station	Costa Rica	June	2013	16P	1153994	0823952
+L197	La Selva Biological Station	Costa Rica	June	2013	16P	1153968	0823975
+L198	La Selva Biological Station	Costa Rica	June	2013	16P	1153931	0824068
+L199	La Selva Biological Station	Costa Rica	June	2013	16P	1153916	0824104
+L200	La Selva Biological Station	Costa Rica	June	2013	16P	1153852	0824192
+T105	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9928059	0373189
+T106	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9928335	0373467
+T107	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9928669	0373335
+T108	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9928958	0373011
+T109	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9929029	0372841
+T110	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9929161	0372722
+T111	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9929207	0372252
+T125	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9929833	0371606
+T126	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9929755	0371890
+T127	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9929532	0372509
+T128	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9929440	0372598
+T143	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9930778	0371293
+T144	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9930670	0371298
+T151	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9929828	0371323
+T152	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9929798	0371193
+T154	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9930009	0370864
+T159	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9930026	0370561
+T160	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9929830	0370415
+T163	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9929529	0370685
+T164	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9929503	0370873
+T165	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9929512	0371053
+T167	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9929450	0371389
+T168	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9929351	0371462
+T169	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9929435	0371579
+T170	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9929323	0371582
+T171	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9929909	0370413
+T172	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9930000	0370369
+T174	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9930224	0370132
+T175	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9930268	0370047
+T176	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9930348	0369980
+T177	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9930414	0369858
+T178	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9930521	0369852
+T179	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9930615	0369835
+T180	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9930699	0369821
+T182	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9931026	0369655
+T185	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9931183	0369826
+T186	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9931191	0369992
+T194	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9931519	0370585
+T195	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9931513	0370681
+T196	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9931521	0370763
+T197	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9931521	0370763
+T198	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9931517	0370970
+T199	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9931492	0371042
+T200	Tiputini Biodiversity Station	Ecuador	October	2013	18M	9931461	0371155
