@@ -1,0 +1,119 @@
+---
+title: "Neotropical Metabarcoding Metadata"
+author: "Frédéric Mahé"
+date: '`r format(Sys.time(), "%d %B %Y")`'
+
+output:
+  rmarkdown::html_document:
+    theme: lumen
+    toc: yes
+    toc_float: TRUE
+    keep_md: yes
+    # code_folding: hide
+---
+
+```{r setup, include=FALSE}
+rm(list = ls()) # remove all objects before starting
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#### load required packages
+
+```{r packages, message=FALSE}
+library(here)
+library(tidyverse)
+```
+
+# preliminary steps
+
+### variables and functions
+
+```{r}
+eukbank_metadata_file <- "eukbank_18SV4_asv.metadata"
+project_name_in_eukbank <- "Neotropical_lowland_forests"
+list_of_read_files <- "list_of_read_files.tsv"
+## output <- str_replace(input, "..xlsx", "_reduced_taxonomy.tsv")
+## annotated_table <- str_replace(output, ".tsv", ".xlsx")
+## eukaryotic_rarefied_file <- str_replace(input, "..xlsx", "_eukaryotic_rarefied.tsv")
+## parasitic_rarefied_file <- str_replace(input, "..xlsx", "_parasitic_rarefied.tsv")
+```
+
+```{r}
+load_list_of_read_files <- function(filename){
+    here::here("data", filename) %>%
+        read_tsv(show_col_types = FALSE) %>%
+        mutate(sample = str_remove(string = Submitted_files,
+                                    pattern = "_lib.*"),
+               sample = str_remove(string = sample,
+                                    pattern = "NG-[0-9]+_")) %>%
+        filter(str_detect(string = Submitted_files,
+                          pattern = "_1_2\\.",
+                          negate = TRUE))
+}
+
+
+load_raw_metadata <- function(filename){
+    here::here("data", filename) %>%
+        read_tsv(show_col_types = FALSE) %>%
+        filter(project == project_name_in_eukbank) %>%
+        select(-c(project, notus, nreads, size_fraction_lower_threshold,
+                  size_fraction_upper_threshold))
+}
+```
+
+
+### get a list of available read files (sff and fastq)
+
+```{r}
+load_list_of_read_files(list_of_read_files) -> read_file_names
+```
+
+
+Some samples were sequenced twice (Roche 454 and Illumina
+MiSeq). After extracting sample names from read file names, we expect
+to find 154 unique sample names.
+
+```{r}
+read_file_names %>%
+    distinct(sample) %>%
+    pull() %>%
+    length() -> n_unique_samples
+```
+
+There are `r prettyNum(n_unique_samples, scientific=FALSE,
+big.mark=",")` unique sample names.
+
+
+# load metadata
+
+```{r}
+load_raw_metadata(eukbank_metadata_file) -> metadata
+```
+
+
+Are sample lists equal?
+
+```{r}
+setequal(x = metadata %>%
+             distinct(sample),
+         y = read_file_names %>%
+             distinct(sample))
+```
+
+Yes, the metadata table and the list of available read files contain
+the same lists of sample names.
+
+
+```{r}
+load_raw_metadata(eukbank_metadata_file) %>%
+    left_join(read_file_names, by = "sample")
+```
+
+
+***
+
+```{r}
+sessionInfo()
+rm(list = ls())
+```
