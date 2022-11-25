@@ -1,3 +1,11 @@
+*~
+*#
+*.csv
+*.tsv
+*.md
+*.html
+*.xlsx
+
 # History files
 .Rhistory
 .Rapp.history
