@@ -31,6 +31,7 @@ library(tidyverse)
 
 ```{r}
 eukbank_metadata_file <- "eukbank_18SV4_asv.metadata"
+coordinates_file <- "sample_coordinates.tsv"
 project_name_in_eukbank <- "Neotropical_lowland_forests"
 list_of_read_files <- "list_of_read_files.tsv"
 ## output <- str_replace(input, "..xlsx", "_reduced_taxonomy.tsv")
@@ -50,6 +51,19 @@ load_list_of_read_files <- function(filename){
         filter(str_detect(string = Submitted_files,
                           pattern = "_1_2\\.",
                           negate = TRUE))
+}
+
+
+load_per_sample_coordinates <- function(filename){
+    here::here("data", filename) %>%
+        read_tsv(show_col_types = FALSE) %>%
+        mutate(northing = as.character(northing),
+               sample_description = str_glue(
+                   "Sampling position of {sample}",
+                   "in UTM coordinates are zone: {zone},",
+                   "northing: {northing}, easting: {easting}.",
+                   .sep = " ")
+               )
 }
 
 
@@ -85,12 +99,21 @@ There are `r prettyNum(n_unique_samples, scientific=FALSE,
 big.mark=",")` unique sample names.
 
 
+### get per-sample coordinates
+
+Using the Universal Transverse Mercator (UTM) coordinate system:
+
+```{r}
+load_per_sample_coordinates(coordinates_file) -> sample_cordinates
+```
+
 # load metadata
 
 ```{r}
 load_raw_metadata(eukbank_metadata_file) -> metadata
 ```
 
+## check
 
 Are sample lists equal?
 
@@ -105,9 +128,28 @@ Yes, the metadata table and the list of available read files contain
 the same lists of sample names.
 
 
+## create the 'sample description' field
+
 ```{r}
-load_raw_metadata(eukbank_metadata_file) %>%
-    left_join(read_file_names, by = "sample")
+sample_cordinates %>%
+    pull(sample_description)
+
+## create for double samples!
+metadata %>%
+    select(sample) %>%
+    filter(str_detect(string = sample, pattern = "_")) %>%
+    mutate(sample_pair = sample) %>%
+    separate_rows(sample, sep = "_") %>%
+    left_join(sample_cordinates %>%
+              select(sample, sample_description),
+              by = "sample") %>%
+    select(-sample) %>%
+    group_by(sample_pair) %>%
+    mutate(position = row_number(sample_pair)) %>%
+    ungroup() %>%
+    pivot_wider(names_from = position, values_from = sample_description)
+
+## almost there!
 ```
 
 
