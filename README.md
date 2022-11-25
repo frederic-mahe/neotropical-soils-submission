@@ -8,10 +8,12 @@ prepare and format metadata for a EBI/ENA submission of the Neotropical metabarc
 - [x] clone,
 - [x] create folders,
 - [x] add placeholders,
-- [ ] start a Rmd file,
-- [ ] check that I have metadata entries all the samples I need to
-      submit (454 and Illumina),
-- [ ] ...
+- [x] start a Rmd file,
+- [x] check that I have metadata entries for all samples (454 and
+      Illumina),
+- [ ] fetch per-sample geographical coordinates,
+- [ ] add a free-form column with a description for each sample
+
 
 ## get a list of all available read files (SFF and fastq)
 
