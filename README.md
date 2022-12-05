@@ -11,8 +11,16 @@ prepare and format metadata for a EBI/ENA submission of the Neotropical metabarc
 - [x] start a Rmd file,
 - [x] check that I have metadata entries for all samples (454 and
       Illumina),
-- [ ] fetch per-sample geographical coordinates,
-- [ ] add a free-form column with a description for each sample
+- [x] fetch per-sample geographical coordinates,
+- [x] add a free-form column with a description for each sample,
+- [x] replicate the structure of the file `neotrop_samples.tsv.csv`,
+      the second line of headers is lifted from a eukbank submission
+      template downloaded today (2022-11-24),
+- [x] add columns one-by-one,
+- [x] reorder columns if need be, create new ones if need be,
+- [x] check primer sequences,
+- [x] set `depth` to zero
+- [ ] issues with samples `T185-186`, `T199_T200`, and `L137_L13`
 
 
 ## get a list of all available read files (SFF and fastq)
