@@ -23,6 +23,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r packages, message=FALSE}
 library(here)
 library(tidyverse)
+library(lubridate)
 ```
 
 # preliminary steps
@@ -34,10 +35,8 @@ eukbank_metadata_file <- "eukbank_18SV4_asv.metadata"
 coordinates_file <- "sample_coordinates.tsv"
 project_name_in_eukbank <- "Neotropical_lowland_forests"
 list_of_read_files <- "list_of_read_files.tsv"
-## output <- str_replace(input, "..xlsx", "_reduced_taxonomy.tsv")
-## annotated_table <- str_replace(output, ".tsv", ".xlsx")
-## eukaryotic_rarefied_file <- str_replace(input, "..xlsx", "_eukaryotic_rarefied.tsv")
-## parasitic_rarefied_file <- str_replace(input, "..xlsx", "_parasitic_rarefied.tsv")
+remove_days <- lubridate::stamp("2019-02", orders = "ym")
+output <- "neotrop_samples.tsv"
 ```
 
 ```{r}
@@ -60,7 +59,7 @@ load_per_sample_coordinates <- function(filename){
         mutate(northing = as.character(northing),
                sample_description = str_glue(
                    "Sampling position of {sample}",
-                   "in UTM coordinates are zone: {zone},",
+                   "in UTM coordinates is zone: {zone},",
                    "northing: {northing}, easting: {easting}.",
                    .sep = " ")
                )
@@ -72,7 +71,10 @@ load_raw_metadata <- function(filename){
         read_tsv(show_col_types = FALSE) %>%
         filter(project == project_name_in_eukbank) %>%
         select(-c(project, notus, nreads, size_fraction_lower_threshold,
-                  size_fraction_upper_threshold))
+                  size_fraction_upper_threshold)) %>%
+        mutate(sample = str_replace(string = sample,
+                                    pattern = "T185_186",
+                                    replacement = "T185_T186"))
 }
 ```
 
@@ -131,11 +133,8 @@ the same lists of sample names.
 ## create the 'sample description' field
 
 ```{r}
-sample_cordinates %>%
-    pull(sample_description)
-
-## create for double samples!
-metadata %>%
+## generate sample description for double samples
+. %>%
     select(sample) %>%
     filter(str_detect(string = sample, pattern = "_")) %>%
     mutate(sample_pair = sample) %>%
@@ -147,10 +146,76 @@ metadata %>%
     group_by(sample_pair) %>%
     mutate(position = row_number(sample_pair)) %>%
     ungroup() %>%
-    pivot_wider(names_from = position, values_from = sample_description)
+    pivot_wider(names_from = position, values_from = sample_description) %>%
+    unite(2, 3, col = "sample_description", sep = " ") %>%
+    mutate(sample_description = as.character(sample_description)) %>%
+    rename(sample = sample_pair) -> sample_descriptions_for_double_samples
 
-## almost there!
+## bind with sample descriptions for single samples
+bind_rows(metadata %>%
+          sample_descriptions_for_double_samples,
+          sample_cordinates %>%
+          select(sample, sample_description)
+          ) -> sample_descriptions
 ```
+
+
+## create and order columns as required in the ENA UniEuk_EukBank Checklist
+
+```{r}
+metadata %>%
+    left_join(x = ., y = sample_descriptions, by = "sample") %>%
+    mutate(tax_id = 100272,
+           scientific_name = "uncultured eukaryote",
+           sample_alias = sample,
+           sample_title = case_when(
+               str_starts(string = sample, pattern = "L") ~ "soil sample from La Selva Biological Station, Costa Rica",
+               str_starts(string = sample, pattern = "B") ~ "soil sample from Barro Colorado Island, Panama",
+               str_starts(string = sample, pattern = "T") ~ "soil sample from Tiputini Biodiversity Station, Ecuador",
+               TRUE ~ "unknown"
+           ),
+           sample_description = as.character(sample_description),
+           `target gene` = "18S",
+           `target subfragment` = "V4",
+           `pcr primers` = primers,
+           isolation_source	= "forest top-soil",
+           collected_by = "Micah Dunthorn",
+           collection_date = lubridate::parse_date_time(collection_date, "ymd"),
+           collection_date = remove_days(collection_date),
+           `collection date` = collection_date,
+           `geographic location (country and/or sea)` = case_when(
+               str_starts(string = sample, pattern = "L") ~ "Costa Rica",
+               str_starts(string = sample, pattern = "B") ~ "Panama",
+               str_starts(string = sample, pattern = "T") ~ "Ecuador",
+               TRUE ~ "unknown"
+           ),
+           `geographic location (latitude)` = latitude,
+           `geographic location (longitude)` = longitude,
+           `geographic location (region and locality)` = case_when(
+               str_starts(string = sample, pattern = "L") ~ "La Selva Biological Station",
+               str_starts(string = sample, pattern = "B") ~ "Barro Colorado Island",
+               str_starts(string = sample, pattern = "T") ~ "Tiputini Biodiversity Station",
+               TRUE ~ "unknown"
+           ),
+           depth = 0,
+           `broad-scale environmental context` = biome,
+           `local environmental context` = feature,
+           `environmental medium` = material,
+           `sample collection device or method` = "spoon",
+           environmental_sample = "yes",
+           `Further Details` = "http://unieuk.org/project/",
+           .before = 1) %>%
+    relocate(sample_description, .after = sample_title) %>%
+    relocate(depth, .after = `geographic location (region and locality)`) %>%
+    select(tax_id:`Further Details`) %>%
+    write_tsv(here::here("results", output))
+```
+
+TODO:
+
+- missing coordinates for T185-T186 (spelled `T185-186` in the EukBank table), could be the case also in our samples (check fastq files)!
+- same thing for T199_T200
+- same thing for L137_L13
 
 
 ***
