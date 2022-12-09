@@ -36,6 +36,7 @@ coordinates_file <- "sample_coordinates.tsv"
 project_name_in_eukbank <- "Neotropical_lowland_forests"
 list_of_read_files <- "list_of_read_files.tsv"
 remove_days <- lubridate::stamp("2019-02", orders = "ym")
+roche_454_samples <- c("B010", "B020", "B030", "B040", "B050", "B060", "B070", "B080", "B090", "B100", "L010", "L020", "L030", "L040", "L050", "L060", "L070", "L080", "L090", "L100")
 output <- "neotrop_samples.tsv"
 ```
 
@@ -71,11 +72,31 @@ load_raw_metadata <- function(filename){
         read_tsv(show_col_types = FALSE) %>%
         filter(project == project_name_in_eukbank) %>%
         select(-c(project, notus, nreads, size_fraction_lower_threshold,
-                  size_fraction_upper_threshold)) %>%
-        mutate(sample = str_replace(string = sample,
-                                    pattern = "T185_186",
-                                    replacement = "T185_T186"))
+                  size_fraction_upper_threshold))
 }
+
+
+. %>%
+    mutate(sample = case_when(
+               sample == "T185_186" ~ "T185_T186",
+               sample == "L137_L13" ~ "L137_L138",
+               TRUE                 ~ sample),
+           collection_date = case_when(
+               sample == "T185_T186" ~ "2013-10-01",
+               sample == "T199_T200" ~ "2013-10-01",
+               sample == "L137_L138" ~ "2013-06-01",
+               TRUE                  ~ collection_date),
+           longitude = case_when(
+               sample == "T185_T186" ~ -76.1690818455638,
+               sample == "T199_T200" ~ -76.1583931324974,
+               sample == "L137_L138" ~ -84.0081054902495,
+               TRUE                  ~ longitude),
+           latitude = case_when(
+               sample == "T185_T186" ~ -0.622442092820539,
+               sample == "T199_T200" ~ -0.61982581193797,
+               sample == "L137_L138" ~ 10.4242830027919,
+               TRUE                  ~ latitude)
+           ) -> fix_missing_data
 ```
 
 
@@ -112,7 +133,8 @@ load_per_sample_coordinates(coordinates_file) -> sample_cordinates
 # load metadata
 
 ```{r}
-load_raw_metadata(eukbank_metadata_file) -> metadata
+load_raw_metadata(eukbank_metadata_file) %>%
+    fix_missing_data -> metadata
 ```
 
 ## check
@@ -208,14 +230,17 @@ metadata %>%
     relocate(sample_description, .after = sample_title) %>%
     relocate(depth, .after = `geographic location (region and locality)`) %>%
     select(tax_id:`Further Details`) %>%
+    arrange(sample_alias) %>%
     write_tsv(here::here("results", output))
 ```
 
-TODO:
+**TODO**:
 
-- missing coordinates for T185-T186 (spelled `T185-186` in the EukBank table), could be the case also in our samples (check fastq files)!
-- same thing for T199_T200
-- same thing for L137_L13
+- **DONE** fix missing data (coordinates and sampling dates),
+- extract `column_generator` from the above block (i.e. the whole `mutate`),
+- make a second table creator,
+- update wrong values on-the-fly (`tax_id`, `scientific_name`, `Further Details`, `target subfragment`, and `pcr primers`)
+- bind the two tables
 
 
 ***
