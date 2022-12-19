@@ -20,7 +20,7 @@ prepare and format metadata for a EBI/ENA submission of the Neotropical metabarc
 - [x] reorder columns if need be, create new ones if need be,
 - [x] check primer sequences,
 - [x] set `depth` to zero
-- [ ] issues with samples `T185-186`, `T199_T200`, and `L137_L13`
+- [x] issues with samples `T185-186` (need to rename fastq files), `T199_T200`, and `L137_L13`
 
 
 ## get a list of all available read files (SFF and fastq)
