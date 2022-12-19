@@ -26,6 +26,7 @@ library(tidyverse)
 library(lubridate)
 ```
 
+
 # preliminary steps
 
 ### variables and functions
@@ -35,8 +36,20 @@ eukbank_metadata_file <- "eukbank_18SV4_asv.metadata"
 coordinates_file <- "sample_coordinates.tsv"
 project_name_in_eukbank <- "Neotropical_lowland_forests"
 list_of_read_files <- "list_of_read_files.tsv"
-remove_days <- lubridate::stamp("2019-02", orders = "ym")
-roche_454_samples <- c("B010", "B020", "B030", "B040", "B050", "B060", "B070", "B080", "B090", "B100", "L010", "L020", "L030", "L040", "L050", "L060", "L070", "L080", "L090", "L100")
+remove_days <- lubridate::stamp("2019-02", orders = "%Y-%Om", quiet = TRUE)
+roche_454_samples <- c("B010", "B020", "B030", "B040", "B050", "B060", "B070",
+                       "B080", "B090", "B100", "L010", "L020", "L030", "L040",
+                       "L050", "L060", "L070", "L080", "L090", "L100")
+La_Selva <- "La Selva Biological Station"
+Barro <- "Barro Colorado Island"
+Tiputini <- "Tiputini Biodiversity Station"
+La_Selva_country <- "Costa Rica"
+Barro_country <- "Panama"
+Tiputini_country <- "Ecuador"
+title_prefix <- "soil sample from "
+La_Selva_title <- str_c(title_prefix, La_Selva, ", ", La_Selva_country)
+Barro_title <- str_c(title_prefix, Barro, ", ", Barro_country)
+Tiputini_title <- str_c(title_prefix, Tiputini, ", ", Tiputini_country)
 output <- "neotrop_samples.tsv"
 ```
 
@@ -130,12 +143,14 @@ Using the Universal Transverse Mercator (UTM) coordinate system:
 load_per_sample_coordinates(coordinates_file) -> sample_cordinates
 ```
 
+
 # load metadata
 
 ```{r}
 load_raw_metadata(eukbank_metadata_file) %>%
     fix_missing_data -> metadata
 ```
+
 
 ## check
 
@@ -148,14 +163,15 @@ setequal(x = metadata %>%
              distinct(sample))
 ```
 
-Yes, the metadata table and the list of available read files contain
-the same lists of sample names.
+after fixing two sample names, the metadata table and the list of
+available read files now differ.
 
 
 ## create the 'sample description' field
 
+generate sample description for double samples:
+
 ```{r}
-## generate sample description for double samples
 . %>%
     select(sample) %>%
     filter(str_detect(string = sample, pattern = "_")) %>%
@@ -172,8 +188,11 @@ the same lists of sample names.
     unite(2, 3, col = "sample_description", sep = " ") %>%
     mutate(sample_description = as.character(sample_description)) %>%
     rename(sample = sample_pair) -> sample_descriptions_for_double_samples
+```
 
-## bind with sample descriptions for single samples
+bind with sample descriptions for single samples:
+
+```{r}
 bind_rows(metadata %>%
           sample_descriptions_for_double_samples,
           sample_cordinates %>%
@@ -182,22 +201,24 @@ bind_rows(metadata %>%
 ```
 
 
-## create and order columns as required in the ENA UniEuk_EukBank Checklist
+## ENA UniEuk_EukBank Checklist
+
+Create and order columns as specified in the [checklist
+ERC000040](https://www.ebi.ac.uk/ena/browser/view/ERC000040):
 
 ```{r}
-metadata %>%
-    left_join(x = ., y = sample_descriptions, by = "sample") %>%
-    mutate(tax_id = 100272,
-           scientific_name = "uncultured eukaryote",
+. %>%
+    mutate(tax_id = 342097,
+           scientific_name = "uncultured soil eukaryote",
            sample_alias = sample,
            sample_title = case_when(
-               str_starts(string = sample, pattern = "L") ~ "soil sample from La Selva Biological Station, Costa Rica",
-               str_starts(string = sample, pattern = "B") ~ "soil sample from Barro Colorado Island, Panama",
-               str_starts(string = sample, pattern = "T") ~ "soil sample from Tiputini Biodiversity Station, Ecuador",
+               str_starts(string = sample, pattern = "L") ~ La_Selva_title,
+               str_starts(string = sample, pattern = "B") ~ Barro_title,
+               str_starts(string = sample, pattern = "T") ~ Tiputini_title,
                TRUE ~ "unknown"
            ),
            sample_description = as.character(sample_description),
-           `target gene` = "18S",
+           `target gene` = "18S SSU rRNA",
            `target subfragment` = "V4",
            `pcr primers` = primers,
            isolation_source	= "forest top-soil",
@@ -206,17 +227,17 @@ metadata %>%
            collection_date = remove_days(collection_date),
            `collection date` = collection_date,
            `geographic location (country and/or sea)` = case_when(
-               str_starts(string = sample, pattern = "L") ~ "Costa Rica",
-               str_starts(string = sample, pattern = "B") ~ "Panama",
-               str_starts(string = sample, pattern = "T") ~ "Ecuador",
+               str_starts(string = sample, pattern = "L") ~ La_Selva_country,
+               str_starts(string = sample, pattern = "B") ~ Barro_country,
+               str_starts(string = sample, pattern = "T") ~ Tiputini_country,
                TRUE ~ "unknown"
            ),
            `geographic location (latitude)` = latitude,
            `geographic location (longitude)` = longitude,
            `geographic location (region and locality)` = case_when(
-               str_starts(string = sample, pattern = "L") ~ "La Selva Biological Station",
-               str_starts(string = sample, pattern = "B") ~ "Barro Colorado Island",
-               str_starts(string = sample, pattern = "T") ~ "Tiputini Biodiversity Station",
+               str_starts(string = sample, pattern = "L") ~ La_Selva,
+               str_starts(string = sample, pattern = "B") ~ Barro,
+               str_starts(string = sample, pattern = "T") ~ Tiputini,
                TRUE ~ "unknown"
            ),
            depth = 0,
@@ -224,23 +245,109 @@ metadata %>%
            `local environmental context` = feature,
            `environmental medium` = material,
            `sample collection device or method` = "spoon",
-           environmental_sample = "yes",
+           environmental_sample = "Yes",
            `Further Details` = "http://unieuk.org/project/",
-           .before = 1) %>%
+           .before = 1) -> create_eukbank_columns
+```
+
+Which level of precision should we choose?
+
+- `tax_id` = 100272, `scientific_name` = "uncultured eukaryote"
+- `tax id` = 342097, `scientific_name` = "uncultured soil eukaryote"
+
+
+### Illumina and Roche 454 samples (universal primers)
+
+The primers are:
+
+- V4F = CCAGCASCYGCGGTAATTCC
+- V4R = ACTTTCGTTCTTGATYRA
+
+Also known as:
+
+- TAReuk454FWD1 (Forward): 5‘-CCAGCA(G/C)C(C/T)GCGGTAATTCC-3‘
+- TAReukRev3 (Reverse): 5‘-ACTTTCGTTCTTGAT(C/T)(A/-G)A-3‘
+
+Standard master mix (in μl):
+
+- 19,75 H20
+- 2,5 10x Buffer
+- 0,5 dNTP
+- 0,5 V4F
+- 0,5 V4R
+- 0,25 polymerase
+- 1 template
+
+Cycling conditions:
+
+(with Hot Start Taq from Qiagen)
+
+1) 95°C 5 min
+2) 94°C 30 sec
+3) 47°C 45 sec
+4) 72°C 60 sec; 2-4 = 29x
+5) 72°C 5 min
+
+
+```{r}
+metadata %>%
+    left_join(x = ., y = sample_descriptions, by = "sample") %>%
+    create_eukbank_columns %>%
     relocate(sample_description, .after = sample_title) %>%
     relocate(depth, .after = `geographic location (region and locality)`) %>%
     select(tax_id:`Further Details`) %>%
-    arrange(sample_alias) %>%
-    write_tsv(here::here("results", output))
+    arrange(sample_alias) -> universal_primer_samples
 ```
 
-**TODO**:
 
-- **DONE** fix missing data (coordinates and sampling dates),
-- extract `column_generator` from the above block (i.e. the whole `mutate`),
-- make a second table creator,
-- update wrong values on-the-fly (`tax_id`, `scientific_name`, `Further Details`, `target subfragment`, and `pcr primers`)
-- bind the two tables
+### Roche 454 samples (ciliate-specific primers, followed by universal primers)
+
+20 samples, using a two step amplification:
+
+1) ciliate specific primers,
+2) universal V4 primers
+
+The primers are:
+
+- Cil_F: 5’ - TGG TAG TGT ATT GGA CWA CCA -3’
+
+Cil R (an equimolar mix of three different primers):
+
+- 5’ - TCT GAT CGT CTT TGA TCC CTT A – 3’
+- 5’ - TCT RAT CGT CTT TGA TCC CCT A – 3’
+- 5’ - TCT GAT TGT CTT TGA TCC CCT A – 3’
+
+Cycling conditions:
+
+(with Hot Start Taq from Qiagen)
+
+1) 95°C 5 min
+2) 94°C 30 sec
+3) 56°C 30 sec
+4) 72°C 60 sec; 2-4 = 25x
+5) 72°C 10 min
+
+followed by an amplification with universal 18S SSU rRNA V4 primers
+(see above).
+
+```{r}
+universal_primer_samples %>%
+    filter(sample_alias %in% roche_454_samples) %>%
+    mutate(tax_id = 187299,
+           scientific_name = "uncultured ciliate",
+           `Further Details` = "") -> ciliate_specific_samples
+```
+
+Note that these samples are marked as *uncultured ciliate*, but might
+contain sequences from other taxonomic groups.
+
+
+## save results
+
+```{r}
+bind_rows(universal_primer_samples, ciliate_specific_samples) %>%
+    write_tsv(here::here("results", output))
+```
 
 
 ***
