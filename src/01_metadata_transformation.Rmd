@@ -51,6 +51,7 @@ La_Selva_title <- str_c(title_prefix, La_Selva, ", ", La_Selva_country)
 Barro_title <- str_c(title_prefix, Barro, ", ", Barro_country)
 Tiputini_title <- str_c(title_prefix, Tiputini, ", ", Tiputini_country)
 output <- "neotrop_samples.tsv"
+output_ncbi <- "neotrop_samples_ncbi.tsv"
 ```
 
 ```{r}
@@ -201,7 +202,7 @@ bind_rows(metadata %>%
 ```
 
 
-## ENA UniEuk_EukBank Checklist
+# ENA UniEuk_EukBank Checklist
 
 Create and order columns as specified in the [checklist
 ERC000040](https://www.ebi.ac.uk/ena/browser/view/ERC000040):
@@ -255,8 +256,14 @@ Which level of precision should we choose?
 - `tax_id` = 100272, `scientific_name` = "uncultured eukaryote"
 - `tax id` = 342097, `scientific_name` = "uncultured soil eukaryote"
 
+Sadly, "uncultured soil eukaryote" is not a sub-node of "uncultured
+eukaryote". Nonetheless, I think its is best to use the most precise
+expression.
 
-### Illumina and Roche 454 samples (universal primers)
+([Environment Ontology](https://ontobee.org/ontology/ENVO))
+
+
+## Illumina and Roche 454 samples (universal primers)
 
 The primers are:
 
@@ -300,9 +307,9 @@ metadata %>%
 ```
 
 
-### Roche 454 samples (ciliate-specific primers, followed by universal primers)
+## Roche 454 samples (ciliate-specific primers, followed by universal primers)
 
-20 samples, using a two step amplification:
+20 samples, using a two-step amplification:
 
 1) ciliate specific primers,
 2) universal V4 primers
@@ -331,15 +338,14 @@ followed by an amplification with universal 18S SSU rRNA V4 primers
 (see above).
 
 ```{r}
+message <- "two-step amplification: 1) ciliate specific primers, 2) universal V4 primers (may contain taxonomic groups other than ciliates)"
+
 universal_primer_samples %>%
     filter(sample_alias %in% roche_454_samples) %>%
     mutate(tax_id = 187299,
            scientific_name = "uncultured ciliate",
-           `Further Details` = "") -> ciliate_specific_samples
+           `Further Details` = message) -> ciliate_specific_samples
 ```
-
-Note that these samples are marked as *uncultured ciliate*, but might
-contain sequences from other taxonomic groups.
 
 
 ## save results
@@ -347,6 +353,218 @@ contain sequences from other taxonomic groups.
 ```{r}
 bind_rows(universal_primer_samples, ciliate_specific_samples) %>%
     write_tsv(here::here("results", output))
+```
+
+Should the second set be submitted separately? without the ERC000040
+ENA UniEuk_EukBank Checklist? EukBank 1.0 does not use the Ciliate
+samples, but it might in the future, so to make things simpler, I
+should submit only one table.
+
+
+# NCBI's template (biosamples)
+
+Submission template for batch deposit of 'MIMARKS: survey, soil;
+version 5.0' samples to the NCBI BioSample database
+(https://www.ncbi.nlm.nih.gov/biosample/).
+
+Use for any type of marker gene sequences, eg, 16S, 18S, 23S, 28S rRNA
+or COI obtained directly from the environment, without culturing or
+identification of the organisms. Organism must be a metagenome, where
+lineage starts with unclassified sequences and scientific name ends
+with 'metagenome'.
+
+## list of fields
+
+Fields with an asterisk (*) are mandatory. Your submission will fail
+if any mandatory fields are not completed. If information is
+unavailable for any mandatory field, please enter 'not collected',
+'not applicable' or 'missing' as appropriate.
+
+All other fields are optional. Leave optional fields empty if no
+information is available.
+
+You can add any number of custom fields to fully describe your
+BioSamples, simply include them in the table.
+
+https://www.ncbi.nlm.nih.gov/biosample/docs/attributes/
+
+- *sample_name
+- sample_title
+- bioproject_accession
+- *organism
+- *collection_date
+- *depth
+- *elev
+- *env_broad_scale
+- *env_local_scale
+- *env_medium
+- *geo_loc_name
+- *lat_lon 38.98 N 77.11 W
+- isolation_source
+- pool_dna_extracts
+- samp_collect_device
+- samp_mat_process
+- samp_size
+- description
+
+other potential attributes:
+
+- misc_param
+- source_material_id
+- collection_method
+
+
+## prepare table
+
+Exclude ciliate amplifications. Here, the focus is on the
+biosamples. Several sequencing runs can be attached to a given
+biosample.
+
+```{r}
+universal_primer_samples %>%
+    mutate(lon_hemisphere  = case_when(
+               `geographic location (longitude)` < 0 ~ "W",
+               TRUE                                  ~ "E"),
+           lat_hemisphere  = case_when(
+               `geographic location (latitude)` < 0 ~ "S",
+               TRUE                                 ~ "N")) %>%
+    mutate(sample_name = sample_alias,
+           bioproject_accession = "PRJNA317860",
+           organism = "soil metagenome",
+           collection_date = `collection date`,
+           depth = "0.01 m",
+           elev = "not collected",
+           env_broad_scale = `broad-scale environmental context`,
+           env_local_scale = `local environmental context`,
+           env_medium = `environmental medium`,
+           geo_loc_name = str_c(`geographic location (country and/or sea)`,
+                                `geographic location (region and locality)`,
+                                sep = ": "),
+           lat_lon = str_c(abs(`geographic location (latitude)`),
+                           lat_hemisphere,
+                           abs(`geographic location (longitude)`),
+                           lon_hemisphere,
+                           sep = " "),
+           pool_dna_extracts = case_when(
+               str_detect(string = sample_name, pattern = "_") ~ "YES;2 extracts",
+               TRUE                                            ~ "NO"),
+           samp_collect_device = `sample collection device or method`,
+           samp_mat_process = "LifeGuard Soil Preservation Solution (8 mL)",
+           samp_size = "5 mL",
+           env_medium = `environmental medium`,
+           description = sample_description,
+           .before = 1) %>%
+    relocate(collected_by, .after = collection_date) %>%
+    relocate(depth, .after = collection_date) %>%
+    relocate(isolation_source, .after = lat_lon) %>%
+    select(sample_name:description) %>%
+    write_tsv(here::here("results", output_ncbi))
+```
+
+
+## submission
+
+To make a submission:
+  1. Complete the template table (typically in Excel, or another spreadsheet application)
+  2. Save the worksheet as a Text (Tab-delimited) file - use 'File, Save as, Save as type: Text (Tab-delimited)'
+  3. Upload the file on the 'Attributes' tab of the BioSample Submission Portal at https://submit.ncbi.nlm.nih.gov/subs/biosample/.
+  4. If you have any questions, please contact us at biosamplehelp@ncbi.nlm.nih.gov.
+
+Note: geographical coordinates were automatically truncated after the
+6th decimal digit upon submission.
+
+Processing took a few minutes.
+
+
+# NCBI's template (sequencing runs)
+
+## variables and functions
+
+```{r}
+normal_pcr <- str_c(
+    c("PCR primers are V4F = CCAGCASCYGCGGTAATTCC and V4R = ",
+      "ACTTTCGTTCTTGATYRA, also known as TAReuk454FWD1 (forward) ",
+      "5'-CCAGCA(G/C)C(C/T)GCGGTAATTCC-3' and TAReukRev3 (reverse) ",
+      "5'-ACTTTCGTTCTTGAT(C/T)(A/-G)A-3'.  PCR mix is (volumes in ",
+      "microliters) 19.75 H20, 2.5 10x Buffer, 0.5 dNTP, 0.5 V4F, ",
+      "0.5 V4R, 0.25 polymerase, 1 template. Cycling conditions ",
+      "(with Hot Start Taq from Qiagen) are 1) 95°C 5 min, 2) 94°C ",
+      "30 sec, 3) 47°C 45 sec, 4) 72°C 60 sec, repeat 2-4 = 29x, 5) ",
+      "72°C 5 min."),
+    collapse = "")
+
+ciliate_pcr <- str_c(
+    c("Two-step amplification with 1) ciliate specific primers, and 2) ",
+      "universal V4 primers.  The ciliate specific primers are Cil_F 5' ",
+      "- TGG TAG TGT ATT GGA CWA CCA -3' and Cil R (an equimolar mix of ",
+      "three different primers): 5' - TCT GAT CGT CTT TGA TCC CTT A – 3', ",
+      "5' - TCT RAT CGT CTT TGA TCC CCT A – 3' and 5' - TCT GAT TGT CTT ",
+      "TGA TCC CCT A – 3'.  Cycling conditions (with Hot Start Taq from ",
+      "Qiagen) are 1) 95°C 5 min, 2) 94°C 30 sec, 3) 56°C 30 sec ,4) 72°C ",
+      "60 sec, repeat 2-4 = 25x, 5) 72°C 10 min.  Followed by an amplification",
+      "with universal 18S SSU rRNA V4 primers (see other sequencing runs in ",
+      "the same bioproject)."),
+    collapse = "")
+
+project_title <- str_c(
+    c("soil eukaryotic 18S SSU rRNA diversity ",
+      "in three neotropical broadleaf forests"),
+    collapse = "")
+```
+
+## load validated table of biosamples
+
+```{r}
+here::here("results", "attributes_ncbi.tsv") %>%
+    read_tsv(show_col_types = FALSE) %>%
+    select(accession, sample_name) %>%
+    rename(biosample_accession = accession) -> table_of_biosamples
+```
+
+
+## preload SRA data
+
+see labbook notes on how to load fastq and sff files to the NCBI SRA
+FTP server
+
+
+## build SRA table
+
+```{r}
+read_file_names %>%
+    mutate(library_number = str_extract(string = Submitted_files,
+                                        pattern = "lib[[:digit:]]+(_[[:digit:]]+)?"),
+           library_ID = str_c(sample, library_number, sep = "_"),
+           title = project_title,
+           library_strategy = "AMPLICON",
+           library_source = "METAGENOMIC",
+           library_selection = "PCR",
+           library_layout = case_when(
+               str_detect(string = run, pattern = "Roche") ~ "single",
+               TRUE                                        ~ "paired"),
+           platform = case_when(
+               str_detect(string = run, pattern = "Roche") ~ "LS454",
+               TRUE                                        ~ "ILLUMINA"),
+           instrument_model = case_when(
+               str_detect(string = run, pattern = "Roche") ~ "454 GS FLX Titanium",
+               TRUE                                        ~ "Illumina MiSeq"),
+           design_description = case_when(
+               str_detect(string = run, pattern = "Ciliate") ~ ciliate_pcr,
+               TRUE                                          ~ normal_pcr),
+           filetype = case_when(
+               str_detect(string = run, pattern = "Roche") ~ "sff",
+               TRUE                                        ~ "fastq"),
+           filename = Submitted_files,
+           filename2 = case_when(
+               filetype == "fastq" ~ str_replace(string = filename,
+                                                 pattern = "_1_1",
+                                                 replacement = "_1_2"),
+               TRUE                ~ ""),
+           .before = 1) %>%
+    left_join(y = table_of_biosamples, by = c("sample" = "sample_name")) %>%
+    relocate(biosample_accession, .before = 1) %>%
+    select(-library_number, -run, -Submitted_files, -sample) %>%
+    write_tsv(here::here("results", "SRA_submission.tsv"))
 ```
 
 
